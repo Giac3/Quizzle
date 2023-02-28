@@ -25,6 +25,7 @@ const LeaderBoard = () => {
 
   return (
     <div className='absolute p-6 bottom-10 items-center justify-center bg-red-200 w-[460px] flex flex-row gap-2 rounded-md shadow-custom h-10'>
+      
       {
         topFive.length !== 0 ? topFive.map((player:any, i) => {
           return <div key={i} className="bg-purple-300 flex flex-row items-center   rounded-md shadow-custom w-32 h-10" >

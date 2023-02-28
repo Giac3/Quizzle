@@ -201,7 +201,7 @@ const Quiz = () => {
         <img className='w-10 h-10 rounded-md shadow-custom' src={currentUser.photoURL} alt='avatar'/>
         <h3 className=''>{currentUser.displayName}</h3>
         </div>
-
+        <h6 className='absolute bottom-[84px] shadow-custom text-xl font-display text-black bg-rose-200 p-2 rounded-md rounded-br-none rounded-bl-none'>Top4 Players</h6>
         <LeaderBoard/>
     </div>
   )
