@@ -1,6 +1,6 @@
 {
   "name": "quizzle",
-  "proxy": "http://localhost:3000/",
+  "proxy": "https://quizzle-server.onrender.com/",
   "private": true,
   "version": "0.0.0",
   "type": "module",

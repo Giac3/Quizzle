@@ -122,7 +122,7 @@ const Quiz = () => {
                 
             }
             
-            fetch('http://localhost:3000/api').then(result => {
+            fetch('https://quizzle-server.onrender.com/api').then(result => {
                 result.json().then((data) => {
                     setQuestion(data.question[0])
                     
