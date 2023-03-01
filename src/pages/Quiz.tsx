@@ -29,6 +29,19 @@ const Quiz = () => {
                 setScore(docsnap.data().score)
             }
         })
+        fetch('https://quizzle-server.onrender.com/api').then(result => {
+                result.json().then((data) => {
+                    setQuestion(data.question[0])
+                    
+                    let ans = [...data.question[0].incorrectAnswers]
+                    ans.push(data.question[0].correctAnswer)
+                    
+                    let shuffled = shuffle(ans)
+                    
+                    setAnswers(shuffled)
+                    setTimer(30)
+                })
+            })
     }, [])
 
 
