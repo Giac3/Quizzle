@@ -5,6 +5,7 @@ import LeaderBoard from '../components/LeaderBoard'
 import { updateProfile } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
+import Counter from '../components/Counter'
 
 const Quiz = () => {
     const { currentUser } = useAuth()
@@ -20,6 +21,7 @@ const Quiz = () => {
     const [userAnswer, setUserAnswer] = useState<string>("") 
     const [isUp, setIsUp] = useState(false)
     const [isDown, setIsDown] = useState(false)
+    const [prevScore, setPrevScore] = useState(0)
 
     useEffect(() => {
         getDoc(docRef).then(docsnap => {
@@ -60,7 +62,7 @@ const Quiz = () => {
 
                 if (question.difficulty === "easy") {
                     setScore(score + 2)
-
+                    setPrevScore(score)
                     setIsUp(true)
                     setTimeout(() => {
                         setIsUp(false)
@@ -70,7 +72,7 @@ const Quiz = () => {
                 }
                 if (question.difficulty === "medium") {
                     setScore(score + 4)
-
+                    setPrevScore(score)
                     setIsUp(true)
                     setTimeout(() => {
                         setIsUp(false)
@@ -80,7 +82,7 @@ const Quiz = () => {
                 }
                 if (question.difficulty === "hard") {
                     setScore(score + 6)
-
+                    setPrevScore(score)
                     setIsUp(true)
                     setTimeout(() => {
                         setIsUp(false)
@@ -94,6 +96,7 @@ const Quiz = () => {
 
                 if (question.difficulty === "easy") {
                     setScore(score - 3)
+                    setPrevScore(score)
                     setIsDown(true)
                     setTimeout(() => {
                         setIsDown(false)
@@ -103,6 +106,7 @@ const Quiz = () => {
                 }
                 if (question.difficulty === "medium") {
                     setScore(score - 4)
+                    setPrevScore(score)
                     setIsDown(true)
                     setTimeout(() => {
                         setIsDown(false)
@@ -112,6 +116,7 @@ const Quiz = () => {
                 }
                 if (question.difficulty === "hard") {
                     setScore(score - 6)
+                    setPrevScore(score)
                     setIsDown(true)
                     setTimeout(() => {
                         setIsDown(false)
@@ -159,7 +164,9 @@ const Quiz = () => {
             initial={{backgroundColor: "#FECACA"}} 
             animate={{backgroundColor: isUp? "#BBF7D0": isDown? "#f24911" : "#FECACA"}}
             transition={{duration: 1}}
-            className='absolute top-20 text-3xl font-display bg-red-200 shadow-custom shadow-orange-500 w-20 h-20 rounded-full flex items-center justify-center'>{score}</motion.h1>
+            className='absolute top-12 text-3xl font-display bg-red-200 shadow-custom shadow-orange-500 w-20 h-20 rounded-full flex items-center justify-center'>
+                <Counter from={prevScore} to={score}/>
+            </motion.h1>
         
 
 
@@ -176,16 +183,16 @@ const Quiz = () => {
         </div>
         <div className=' w-[400px] flex flex-row gap-4 items-center justify-center '>
             {
-                isA?<button className='bg-yellow-200 w-32 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[0]}</button>:<button onClick={() => {setIsA(true),setIsB(false),setIsC(false),setIsD(false), setUserAnswer(answers[0])}} className='bg-green-200 w-20 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[0]}</button>
+                isA?<button className='bg-yellow-200 w-40 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[0]}</button>:<button onClick={() => {setIsA(true),setIsB(false),setIsC(false),setIsD(false), setUserAnswer(answers[0])}} className='bg-green-200 w-32 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[0]}</button>
             }
             {
-                isB?<button  className='bg-yellow-200 w-32 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[1]}</button>:<button onClick={() => {setIsA(false),setIsB(true),setIsC(false),setIsD(false), setUserAnswer(answers[1])}} className='bg-green-200 w-20 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[1]}</button>
+                isB?<button  className='bg-yellow-200 w-40 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[1]}</button>:<button onClick={() => {setIsA(false),setIsB(true),setIsC(false),setIsD(false), setUserAnswer(answers[1])}} className='bg-green-200 w-32 duration-300 p-1 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[1]}</button>
             }
             {
-                isC?<button  className='bg-yellow-200 w-32 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm p-1  rounded-md shadow-custom break-words'>{answers[2]}</button>:<button onClick={() => {setIsA(false),setIsB(false),setIsC(true),setIsD(false), setUserAnswer(answers[2])}} className='bg-green-200 w-20 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm p-1  rounded-md shadow-custom break-words'>{answers[2]}</button>
+                isC?<button  className='bg-yellow-200 w-40 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm p-1  rounded-md shadow-custom break-words'>{answers[2]}</button>:<button onClick={() => {setIsA(false),setIsB(false),setIsC(true),setIsD(false), setUserAnswer(answers[2])}} className='bg-green-200 w-32 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm p-1  rounded-md shadow-custom break-words'>{answers[2]}</button>
             }
             {
-                isD?<button  className='bg-yellow-200 p-1 w-32 break-words  duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom'>{answers[3]}</button>:<button onClick={() => {setIsA(false),setIsB(false),setIsC(false),setIsD(true), setUserAnswer(answers[3])}} className='bg-green-200 p-1 w-20 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[3]}</button>
+                isD?<button  className='bg-yellow-200 p-1 w-40 break-words  duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom'>{answers[3]}</button>:<button onClick={() => {setIsA(false),setIsB(false),setIsC(false),setIsD(true), setUserAnswer(answers[3])}} className='bg-green-200 p-1 w-32 duration-300 hover:bg-yellow-200 hover:shadow-md text-black font-display text-sm  rounded-md shadow-custom break-words'>{answers[3]}</button>
             }
             
         </div>
